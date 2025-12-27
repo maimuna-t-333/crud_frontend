@@ -80,11 +80,11 @@ const UserForm = ({ onAdd }) => {
 
   return (
     <div>
-      <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-        <div className="p-1.5 sm:p-2 bg-blue-100 rounded-lg">
+      <div className="flex items-center gap-2 lg:gap-3 mb-4 lg:mb-6">
+        <div className="p-2 lg:p-3 bg-blue-100 rounded-lg">
           <UserPlus className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Add New User</h2>
+        <h2 className="text-xl lg:text-2xl font-bold text-gray-800">Add New User</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
@@ -93,7 +93,7 @@ const UserForm = ({ onAdd }) => {
           <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
             <div className="flex items-center gap-2">
               <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              Name *
+              Name 
             </div>
           </label>
           <input 
@@ -105,7 +105,7 @@ const UserForm = ({ onAdd }) => {
             className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 rounded-lg transition-all focus:outline-none focus:ring-2 ${
               errors.name 
                 ? 'border-red-300 focus:ring-red-200 bg-red-50' 
-                : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'
+                : 'border-gray-200  focus:ring-blue-200'
             }`}
           />
           {errors.name && (
@@ -120,7 +120,7 @@ const UserForm = ({ onAdd }) => {
           <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
             <div className="flex items-center gap-2">
               <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              Email *
+              Email 
             </div>
           </label>
           <input 
@@ -133,7 +133,7 @@ const UserForm = ({ onAdd }) => {
             className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 rounded-lg transition-all focus:outline-none focus:ring-2 ${
               errors.email 
                 ? 'border-red-300 focus:ring-red-200 bg-red-50' 
-                : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'
+                : 'border-gray-200  focus:ring-blue-200'
             }`}
           />
           {errors.email && (
@@ -160,7 +160,7 @@ const UserForm = ({ onAdd }) => {
             className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 rounded-lg transition-all focus:outline-none focus:ring-2 ${
               errors.age 
                 ? 'border-red-300 focus:ring-red-200 bg-red-50' 
-                : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'
+                : 'border-gray-200  focus:ring-blue-200'
             }`}
           />
           {errors.age && (
@@ -177,7 +177,7 @@ const UserForm = ({ onAdd }) => {
           className={`w-full py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold text-sm sm:text-base text-white transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md ${
             loading 
               ? 'bg-gray-400 cursor-not-allowed' 
-              : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-lg'
+              : 'bg-gradient-to-r from-blue-500 to-purple-300 hover:from-blue-500 hover:to-purple-700 hover:shadow-lg'
           }`}
         >
           {loading ? (
