@@ -152,12 +152,12 @@ const UserForm = ({ onAdd }) => {
             </div>
           </label>
           <input 
-            placeholder="Enter age (optional)" 
+            placeholder="Enter your age" 
             type="number" 
             name="age"
             value={formData.age} 
             onChange={handleChange}
-            className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 rounded-lg transition-all focus:outline-none focus:ring-2 ${
+            className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base required border-2 rounded-lg transition-all focus:outline-none focus:ring-2 ${
               errors.age 
                 ? 'border-red-300 focus:ring-red-200 bg-red-50' 
                 : 'border-gray-200  focus:ring-blue-200'
