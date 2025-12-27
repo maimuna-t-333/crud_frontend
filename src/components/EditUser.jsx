@@ -1,376 +1,292 @@
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
-
-// const API_BASE_URL = 'http://localhost:5000';
-
-// const EditUser = ({ user, onClose }) => {
-//   const [formData, setFormData] = useState({ name: '', email: '', age: '' });
-//   const [loading, setLoading] = useState(false);
-//   const [errors, setErrors] = useState({});
-
-//   useEffect(() => {
-//     if (user) {
-//       setFormData({
-//         name: user.name || '',
-//         email: user.email || '',
-//         age: user.age || ''
-//       });
-//       setErrors({});
-//     }
-//   }, [user]);
-
-//   if (!user) return null;
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData(prev => ({ ...prev, [name]: value }));
-//     if (errors[name]) {
-//       setErrors(prev => ({ ...prev, [name]: '' }));
-//     }
-//   };
-
-//   const validateForm = () => {
-//     const newErrors = {};
-    
-//     if (!formData.name.trim()) {
-//       newErrors.name = 'Name is required';
-//     } else if (formData.name.trim().length < 2) {
-//       newErrors.name = 'Name must be at least 2 characters';
-//     }
-    
-//     if (!formData.email.trim()) {
-//       newErrors.email = 'Email is required';
-//     } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-//       newErrors.email = 'Please enter a valid email';
-//     }
-    
-//     if (formData.age && (formData.age < 0 || formData.age > 150)) {
-//       newErrors.age = 'Please enter a valid age';
-//     }
-    
-//     setErrors(newErrors);
-//     return Object.keys(newErrors).length === 0;
-//   };
-
-//   const handleSave = async (e) => {
-//     e.preventDefault();
-    
-//     if (!validateForm()) {
-//       return;
-//     }
-    
-//     setLoading(true);
-//     try {
-//       await axios.put(`${API_BASE_URL}/users/${user.id}`, formData);
-//       onClose(true);
-//       alert('User updated successfully!');
-//     } catch (err) {
-//       console.error('Update error:', err);
-//       if (err.response?.data?.error === 'Email already exists') {
-//         setErrors(prev => ({ ...prev, email: 'Email already exists' }));
-//       } else if (err.response?.data?.errors) {
-//         const serverErrors = {};
-//         err.response.data.errors.forEach(error => {
-//           if (error.includes('Name')) serverErrors.name = error;
-//           if (error.includes('Email')) serverErrors.email = error;
-//           if (error.includes('Age')) serverErrors.age = error;
-//         });
-//         setErrors(serverErrors);
-//       } else {
-//         alert('Update failed. Please try again.');
-//       }
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div style={{
-//       position: 'fixed', 
-//       inset: 0,
-//       background: 'rgba(0,0,0,0.5)',
-//       display: 'flex',
-//       justifyContent: 'center',
-//       alignItems: 'center',
-//       zIndex: 1000
-//     }}>
-//       <form onSubmit={handleSave} style={{
-//         background: '#fff', 
-//         padding: '20px', 
-//         borderRadius: '8px', 
-//         width: '400px',
-//         maxWidth: '90vw'
-//       }}>
-//         <h3>Edit User</h3>
-
-//         <div style={{ marginBottom: '15px' }}>
-//           <label style={{ display: 'block', marginBottom: '5px' }}>Name *</label>
-//           <input 
-//             name="name" 
-//             value={formData.name} 
-//             onChange={handleChange}
-//             style={{ 
-//               width: '100%', 
-//               padding: '8px',
-//               border: errors.name ? '1px solid red' : '1px solid #ccc'
-//             }}
-//           />
-//           {errors.name && <span style={{ color: 'red', fontSize: '14px' }}>{errors.name}</span>}
-//         </div>
-
-//         <div style={{ marginBottom: '15px' }}>
-//           <label style={{ display: 'block', marginBottom: '5px' }}>Email *</label>
-//           <input 
-//             name="email" 
-//             value={formData.email} 
-//             onChange={handleChange}
-//             style={{ 
-//               width: '100%', 
-//               padding: '8px',
-//               border: errors.email ? '1px solid red' : '1px solid #ccc'
-//             }}
-//           />
-//           {errors.email && <span style={{ color: 'red', fontSize: '14px' }}>{errors.email}</span>}
-//         </div>
-
-//         <div style={{ marginBottom: '20px' }}>
-//           <label style={{ display: 'block', marginBottom: '5px' }}>Age</label>
-//           <input 
-//             name="age" 
-//             type="number"
-//             value={formData.age} 
-//             onChange={handleChange}
-//             style={{ 
-//               width: '100%', 
-//               padding: '8px',
-//               border: errors.age ? '1px solid red' : '1px solid #ccc'
-//             }}
-//           />
-//           {errors.age && <span style={{ color: 'red', fontSize: '14px' }}>{errors.age}</span>}
-//         </div>
-
-//         <div>
-//           <button 
-//             type="submit" 
-//             disabled={loading}
-//             style={{ 
-//               marginRight: '10px',
-//               padding: '8px 16px',
-//               backgroundColor: loading ? '#ccc' : '#007bff',
-//               color: 'white',
-//               border: 'none',
-//               borderRadius: '4px',
-//               cursor: loading ? 'not-allowed' : 'pointer'
-//             }}
-//           >
-//             {loading ? 'Saving...' : 'Save'}
-//           </button>
-//           <button 
-//             type="button" 
-//             onClick={() => onClose(false)}
-//             style={{ 
-//               padding: '8px 16px',
-//               backgroundColor: '#6c757d',
-//               color: 'white',
-//               border: 'none',
-//               borderRadius: '4px',
-//               cursor: 'pointer'
-//             }}
-//           >
-//             Cancel
-//           </button>
-//         </div>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default EditUser;
-
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { X, Save, User, Mail, Calendar } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:5000';
+// Our backend server address
+const BACKEND_URL = 'http://localhost:5000';
 
+/**
+ * Edit User Dialog Component
+ * Shows a popup modal where you can edit user information
+ */
 const EditUser = ({ user, onClose }) => {
-  const [formData, setFormData] = useState({ name: '', email: '', age: '' });
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  // Store the edited user data
+  const [editedUserData, setEditedUserData] = useState({ 
+    name: '', 
+    email: '', 
+    age: '' 
+  });
+  
+  // Track if we're saving changes
+  const [isSavingChanges, setIsSavingChanges] = useState(false);
+  
+  // Store validation errors
+  const [validationErrors, setValidationErrors] = useState({});
 
+  /**
+   * When a user is selected for editing, populate the form with their data
+   */
   useEffect(() => {
     if (user) {
-      setFormData({
+      setEditedUserData({
         name: user.name || '',
         email: user.email || '',
         age: user.age || ''
       });
-      setErrors({});
+      setValidationErrors({});
     }
   }, [user]);
 
+  // Don't show anything if no user is selected
   if (!user) return null;
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+  /**
+   * Handle changes when user types in any field
+   */
+  const handleInputChange = (event) => {
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+    
+    // Update the edited data
+    setEditedUserData(previousData => ({ 
+      ...previousData, 
+      [fieldName]: fieldValue 
+    }));
+    
+    // Clear any error for this field
+    if (validationErrors[fieldName]) {
+      setValidationErrors(previousErrors => ({ 
+        ...previousErrors, 
+        [fieldName]: '' 
+      }));
     }
   };
 
-  const validateForm = () => {
-    const newErrors = {};
+  /**
+   * Check if the form data is valid
+   * Returns true if everything is okay, false otherwise
+   */
+  const checkIfFormIsValid = () => {
+    const errors = {};
     
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
+    // Check name
+    if (!editedUserData.name.trim()) {
+      errors.name = 'Name is required';
+    } else if (editedUserData.name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters';
     }
     
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
+    // Check email
+    if (!editedUserData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^\S+@\S+\.\S+$/.test(editedUserData.email)) {
+      errors.email = 'Please enter a valid email';
     }
     
-    if (formData.age && (formData.age < 0 || formData.age > 150)) {
-      newErrors.age = 'Please enter a valid age';
+    // Check age (optional)
+    if (editedUserData.age && (editedUserData.age < 0 || editedUserData.age > 150)) {
+      errors.age = 'Please enter a valid age';
     }
     
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
-  const handleSave = async (e) => {
-    e.preventDefault();
+  /**
+   * Save the changes to the backend
+   */
+  const saveChanges = async (event) => {
+    event.preventDefault();
     
-    if (!validateForm()) {
+    // Validate before saving
+    if (!checkIfFormIsValid()) {
       return;
     }
     
-    setLoading(true);
+    setIsSavingChanges(true);
+    
     try {
-      await axios.put(`${API_BASE_URL}/users/${user.id}`, formData);
+      // Send updated data to backend
+      await axios.put(`${BACKEND_URL}/users/${user.id}`, editedUserData);
+      
+      // Success! Close the dialog and tell parent we saved changes
       onClose(true);
       alert('User updated successfully!');
-    } catch (err) {
-      console.error('Update error:', err);
-      if (err.response?.data?.error === 'Email already exists') {
-        setErrors(prev => ({ ...prev, email: 'Email already exists' }));
-      } else if (err.response?.data?.errors) {
-        const serverErrors = {};
-        err.response.data.errors.forEach(error => {
-          if (error.includes('Name')) serverErrors.name = error;
-          if (error.includes('Email')) serverErrors.email = error;
-          if (error.includes('Age')) serverErrors.age = error;
+      
+    } catch (error) {
+      console.error('Failed to update user:', error);
+      
+      // Handle specific errors from backend
+      if (error.response?.data?.error === 'Email already exists') {
+        setValidationErrors(prev => ({ 
+          ...prev, 
+          email: 'Email already exists' 
+        }));
+      } else if (error.response?.data?.errors) {
+        // Handle multiple validation errors from backend
+        const backendErrors = {};
+        error.response.data.errors.forEach(errorMessage => {
+          if (errorMessage.includes('Name')) backendErrors.name = errorMessage;
+          if (errorMessage.includes('Email')) backendErrors.email = errorMessage;
+          if (errorMessage.includes('Age')) backendErrors.age = errorMessage;
         });
-        setErrors(serverErrors);
+        setValidationErrors(backendErrors);
       } else {
         alert('Update failed. Please try again.');
       }
     } finally {
-      setLoading(false);
+      setIsSavingChanges(false);
     }
   };
 
+  /**
+   * Close the dialog without saving
+   */
+  const cancelEditing = () => {
+    onClose(false);
+  };
+
   return (
-    <div style={{
-      position: 'fixed', 
-      inset: 0,
-      background: 'rgba(0,0,0,0.5)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 1000
-    }}>
-      <form onSubmit={handleSave} style={{
-        background: '#fff', 
-        padding: '20px', 
-        borderRadius: '8px', 
-        width: '400px',
-        maxWidth: '90vw'
-      }}>
-        <h3>Edit User</h3>
-
-        <div style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '5px' }}>Name *</label>
-          <input 
-            name="name" 
-            value={formData.name} 
-            onChange={handleChange}
-            style={{ 
-              width: '100%', 
-              padding: '8px',
-              border: errors.name ? '1px solid red' : '1px solid #ccc'
-            }}
-          />
-          {errors.name && <span style={{ color: 'red', fontSize: '14px' }}>{errors.name}</span>}
-        </div>
-
-        <div style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'block', marginBottom: '5px' }}>Email *</label>
-          <input 
-            name="email" 
-            value={formData.email} 
-            onChange={handleChange}
-            style={{ 
-              width: '100%', 
-              padding: '8px',
-              border: errors.email ? '1px solid red' : '1px solid #ccc'
-            }}
-          />
-          {errors.email && <span style={{ color: 'red', fontSize: '14px' }}>{errors.email}</span>}
-        </div>
-
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '5px' }}>Age</label>
-          <input 
-            name="age" 
-            type="number"
-            value={formData.age} 
-            onChange={handleChange}
-            style={{ 
-              width: '100%', 
-              padding: '8px',
-              border: errors.age ? '1px solid red' : '1px solid #ccc'
-            }}
-          />
-          {errors.age && <span style={{ color: 'red', fontSize: '14px' }}>{errors.age}</span>}
-        </div>
-
-        <div>
-          <button 
-            type="submit" 
-            disabled={loading}
-            style={{ 
-              marginRight: '10px',
-              padding: '8px 16px',
-              backgroundColor: loading ? '#ccc' : '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: loading ? 'not-allowed' : 'pointer'
-            }}
+    // Dark overlay that covers the whole screen
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+      
+      {/* The actual dialog box */}
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all">
+        
+        {/* Dialog Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <User className="w-6 h-6 text-blue-600" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800">Edit User</h3>
+          </div>
+          
+          {/* Close button */}
+          <button
+            onClick={cancelEditing}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            title="Close without saving"
           >
-            {loading ? 'Saving...' : 'Save'}
-          </button>
-          <button 
-            type="button" 
-            onClick={() => onClose(false)}
-            style={{ 
-              padding: '8px 16px',
-              backgroundColor: '#6c757d',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            Cancel
+            <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
-      </form>
+
+        {/* Edit Form */}
+        <form onSubmit={saveChanges} className="p-6 space-y-5">
+          
+          {/* Name Field */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <div className="flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Name *
+              </div>
+            </label>
+            <input 
+              name="name" 
+              value={editedUserData.name} 
+              onChange={handleInputChange}
+              className={`w-full px-4 py-3 border-2 rounded-lg transition-all focus:outline-none focus:ring-2 ${
+                validationErrors.name 
+                  ? 'border-red-300 focus:ring-red-200 bg-red-50' 
+                  : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'
+              }`}
+            />
+            {validationErrors.name && (
+              <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <span className="font-medium">⚠</span> {validationErrors.name}
+              </p>
+            )}
+          </div>
+
+          {/* Email Field */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <div className="flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                Email *
+              </div>
+            </label>
+            <input 
+              name="email" 
+              value={editedUserData.email} 
+              onChange={handleInputChange}
+              className={`w-full px-4 py-3 border-2 rounded-lg transition-all focus:outline-none focus:ring-2 ${
+                validationErrors.email 
+                  ? 'border-red-300 focus:ring-red-200 bg-red-50' 
+                  : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'
+              }`}
+            />
+            {validationErrors.email && (
+              <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <span className="font-medium">⚠</span> {validationErrors.email}
+              </p>
+            )}
+          </div>
+
+          {/* Age Field */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                Age
+              </div>
+            </label>
+            <input 
+              name="age" 
+              type="number"
+              value={editedUserData.age} 
+              onChange={handleInputChange}
+              className={`w-full px-4 py-3 border-2 rounded-lg transition-all focus:outline-none focus:ring-2 ${
+                validationErrors.age 
+                  ? 'border-red-300 focus:ring-red-200 bg-red-50' 
+                  : 'border-gray-200 focus:border-blue-500 focus:ring-blue-200'
+              }`}
+            />
+            {validationErrors.age && (
+              <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <span className="font-medium">⚠</span> {validationErrors.age}
+              </p>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-3 pt-4">
+            {/* Save Button */}
+            <button 
+              type="submit" 
+              disabled={isSavingChanges}
+              className={`flex-1 py-3 px-6 rounded-lg font-semibold text-white transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md ${
+                isSavingChanges 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-lg'
+              }`}
+            >
+              {isSavingChanges ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  Saving...
+                </span>
+              ) : (
+                <span className="flex items-center justify-center gap-2">
+                  <Save className="w-5 h-5" />
+                  Save Changes
+                </span>
+              )}
+            </button>
+            
+            {/* Cancel Button */}
+            <button 
+              type="button" 
+              onClick={cancelEditing}
+              className="flex-1 py-3 px-6 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
